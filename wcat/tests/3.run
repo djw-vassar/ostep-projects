@@ -1,1 +1,1 @@
-./wcat tests/3.in
+./vcat tests/3.in
