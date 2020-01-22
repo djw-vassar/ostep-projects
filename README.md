@@ -1,12 +1,16 @@
 
 # Unix Utilities
 
+This lab is adapted from the [supplemental
+labs](https://github.com/remzi-arpacidusseau/ostep-projects) that
+accompany the OSTEP textbook.
+
 **Before beginning:** Read this [lab tutorial](http://pages.cs.wisc.edu/~remzi/OSTEP/lab-tutorial.pdf); it has some useful tips for programming in the C environment.
 
 In this project, you'll build a few different UNIX utilities, simple versions
 of commonly used commands like **cat**, **ls**, etc. We'll call each of them a
 slightly different name to avoid confusion; for example, instead of **cat**,
-you'll be implementing **wcat** (i.e., "wisconsin" cat).
+you'll be implementing **vcat** (i.e., "vassar" cat).
 
 Objectives:
 * Re-familiarize yourself with the C programming language
@@ -22,44 +26,44 @@ and of course a basic understanding of C programming. If you **do not** have
 these skills already, this is not the right place to start.
 
 Summary of what gets turned in:
-* A bunch of single .c files for each of the utilities below: **wcat.c**,
-  **wgrep.c**, **wzip.c**, and **wunzip.c**.
+* A bunch of single .c files for each of the utilities below: **vcat.c**,
+  **vgrep.c**, **vzip.c**, and **vunzip.c**.
 * Each should compile successfully when compiled with the **-Wall** and
 **-Werror** flags.
 * Each should (hopefully) pass the tests we supply to you.
 
-## wcat
+## vcat
 
-The program **wcat** is a simple program. Generally, it reads a file as
+The program **vcat** is a simple program. Generally, it reads a file as
 specified by the user and prints its contents. A typical usage is as follows,
 in which the user wants to see the contents of main.c, and thus types: 
 
 ```
-prompt> ./wcat main.c
+prompt> ./vcat main.c
 #include <stdio.h>
 ...
 ```
 
-As shown, **wcat** reads the file **main.c** and prints out its contents. 
-The "**./**" before the **wcat** above is a UNIX thing; it just tells the
-system which directory to find **wcat** in (in this case, in the "." (dot)
+As shown, **vcat** reads the file **main.c** and prints out its contents. 
+The "**./**" before the **vcat** above is a UNIX thing; it just tells the
+system which directory to find **vcat** in (in this case, in the "." (dot)
 directory, which means the current working directory). 
 
-To create the **wcat** binary, you'll be creating a single source file,
-**wcat.c**, and writing a little C code to implement this simplified version
+To create the **vcat** binary, you'll be creating a single source file,
+**vcat.c**, and writing a little C code to implement this simplified version
 of **cat**. To compile this program, you will do the following:
 
 ```
-prompt> gcc -o wcat wcat.c -Wall -Werror
+prompt> gcc -o vcat vcat.c -Wall -Werror
 prompt> 
 ```
 
-This will make a single *executable binary* called **wcat** which you can
+This will make a single *executable binary* called **vcat** which you can
 then run as above. 
 
 You'll need to learn how to use a few library routines from the C standard
 library (often called **libc**) to implement the source code for this program,
-which we'll assume is in a file called **wcat.c**. All C code is
+which we'll assume is in a file called **vcat.c**. All C code is
 automatically linked with the C library, which is full of useful functions you
 can call to implement your program. Learn more about the C library
 [here](https://en.wikipedia.org/wiki/C_standard_library) and perhaps
@@ -154,24 +158,24 @@ file (thus indicating you no longer need to read from it).
 
 **Details**
 
-* Your program **wcat** can be invoked with one or more files on the command
+* Your program **vcat** can be invoked with one or more files on the command
   line; it should just print out each file in turn. 
-* In all non-error cases, **wcat** should exit with status code 0, usually by
+* In all non-error cases, **vcat** should exit with status code 0, usually by
   returning a 0 from **main()** (or by calling **exit(0)**).
-* If *no files* are specified on the command line, **wcat** should just exit
+* If *no files* are specified on the command line, **vcat** should just exit
   and return 0. Note that this is slightly different than the behavior of 
   normal UNIX **cat** (if you'd like to, figure out the difference).
 * If the program tries to **fopen()** a file and fails, it should print the
-  exact message "wcat: cannot open file" (followed by a newline) and exit
+  exact message "vcat: cannot open file" (followed by a newline) and exit
   with status code 1.  If multiple files are specified on the command line,
   the files should be printed out in order until the end of the file list is
   reached or an error opening a file is reached (at which point the error
-  message is printed and **wcat** exits). 
+  message is printed and **vcat** exits). 
 
 
-## wgrep
+## vgrep
 
-The second utility you will build is called **wgrep**, a variant of the UNIX
+The second utility you will build is called **vgrep**, a variant of the UNIX
 tool **grep**. This tool looks through a file, line by line, trying to find a
 user-specified search term in the line. If a line has the word within it, the
 line is printed out, otherwise it is not. 
@@ -179,7 +183,7 @@ line is printed out, otherwise it is not.
 Here is how a user would look for the term **foo** in the file **bar.txt**:
 
 ```
-prompt> ./wgrep foo bar.txt
+prompt> ./vgrep foo bar.txt
 this line has foo in it
 so does this foolish line; do you see where?
 even this line, which has barfood in it, will be printed.
@@ -187,40 +191,40 @@ even this line, which has barfood in it, will be printed.
 
 **Details**
 
-* Your program **wgrep** is always passed a search term and zero or
+* Your program **vgrep** is always passed a search term and zero or
   more files to grep through (thus, more than one is possible). It should go
   through each line and see if the search term is in it; if so, the line
   should be printed, and if not, the line should be skipped.
 * The matching is case sensitive. Thus, if searching for **foo**, lines
   with **Foo** will *not* match.
 * Lines can be arbitrarily long (that is, you may see many many characters
-  before you encounter a newline character, \\n). **wgrep** should work
+  before you encounter a newline character, \\n). **vgrep** should work
   as expected even with very long lines. For this, you might want to look
   into the **getline()** library call (instead of **fgets()**), or roll your
   own. 
-* If **wgrep** is passed no command-line arguments, it should print
-  "wgrep: searchterm [file ...]" (followed by a newline) and exit with
+* If **vgrep** is passed no command-line arguments, it should print
+  "vgrep: searchterm [file ...]" (followed by a newline) and exit with
   status 1.  
-* If **wgrep** encounters a file that it cannot open, it should print
-  "wgrep: cannot open file" (followed by a newline) and exit with status 1. 
-* In all other cases, **wgrep** should exit with return code 0.
-* If a search term, but no file, is specified, **wgrep** should work,
-  but instead of reading from a file, **wgrep** should read from
+* If **vgrep** encounters a file that it cannot open, it should print
+  "vgrep: cannot open file" (followed by a newline) and exit with status 1. 
+* In all other cases, **vgrep** should exit with return code 0.
+* If a search term, but no file, is specified, **vgrep** should work,
+  but instead of reading from a file, **vgrep** should read from
   *standard input*. Doing so is easy, because the file stream **stdin**
   is already open; you can use **fgets()** (or similar routines) to
   read from it.
-* For simplicity, if passed the empty string as a search string, **wgrep**
+* For simplicity, if passed the empty string as a search string, **vgrep**
   can either match NO lines or match ALL lines, both are acceptable.
 
-## wzip and wunzip
+## vzip and vunzip
 
-The next tools you will build come in a pair, because one (**wzip**) is a
-file compression tool, and the other (**wunzip**) is a file decompression
+The next tools you will build come in a pair, because one (**vzip**) is a
+file compression tool, and the other (**vunzip**) is a file decompression
 tool. 
 
 The type of compression used here is a simple form of compression called
 *run-length encoding* (*RLE*). RLE is quite simple: when you encounter **n**
-characters of the same type in a row, the compression tool (**wzip**) will
+characters of the same type in a row, the compression tool (**vzip**) will
 turn that into the number **n** and a single instance of the character.
 
 Thus, if we had a file with the following contents:
@@ -239,49 +243,49 @@ character in ASCII. Thus, a compressed file will consist of some number of
 length) and the single character. 
 
 To write out an integer in binary format (not ASCII), you should use
-**fwrite()**. Read the man page for more details. For **wzip**, all
+**fwrite()**. Read the man page for more details. For **vzip**, all
 output should be written to standard output (the **stdout** file stream,
 which, as with **stdin**, is already open when the program starts running). 
 
-Note that typical usage of the **wzip** tool would thus use shell 
+Note that typical usage of the **vzip** tool would thus use shell 
 redirection in order to write the compressed output to a file. For example,
 to compress the file **file.txt** into a (hopefully smaller) **file.z**,
 you would type:
 
 ```
-prompt> ./wzip file.txt > file.z
+prompt> ./vzip file.txt > file.z
 ```
 
 The "greater than" sign is a UNIX shell redirection; in this case, it ensures
-that the output from **wzip** is written to the file **file.z** (instead of
+that the output from **vzip** is written to the file **file.z** (instead of
 being printed to the screen). You'll learn more about how this works a little
 later in the course.
 
-The **wunzip** tool simply does the reverse of the **wzip** tool, taking
+The **vunzip** tool simply does the reverse of the **vzip** tool, taking
 in a compressed file and writing (to standard output again) the uncompressed
 results. For example, to see the contents of **file.txt**, you would type:
 
 ```
-prompt> ./wunzip file.z
+prompt> ./vunzip file.z
 ```
 
-**wunzip** should read in the compressed file (likely using **fread()**)
+**vunzip** should read in the compressed file (likely using **fread()**)
 and print out the uncompressed output to standard output using **printf()**.
 
 **Details**
 
 * Correct invocation should pass one or more files via the command line to the 
   program; if no files are specified, the program should exit with return code
-  1 and print "wzip: file1 [file2 ...]" (followed by a newline) or
-  "wunzip: file1 [file2 ...]" (followed by a newline) for **wzip** and
-  **wunzip** respectively. 
+  1 and print "vzip: file1 [file2 ...]" (followed by a newline) or
+  "vunzip: file1 [file2 ...]" (followed by a newline) for **vzip** and
+  **vunzip** respectively. 
 * The format of the compressed file must match the description above exactly
   (a 4-byte integer followed by a character for each run).
-* Do note that if multiple files are passed to **wzip*, they are compressed
+* Do note that if multiple files are passed to **vzip*, they are compressed
   into a single compressed output, and when unzipped, will turn into a single
   uncompressed stream of text (thus, the information that multiple files were
-  originally input into **wzip** is lost). The same thing holds for
-  **wunzip**. 
+  originally input into **vzip** is lost). The same thing holds for
+  **vunzip**. 
 
 
 ### Footnotes
