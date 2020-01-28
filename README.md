@@ -95,7 +95,7 @@ needed, and then modify it to do what you need.
 For this project, most of the time will be spent on understanding the
 code. There shouldn't be a whole lot of code added.
 
-# Running Tests
+## Running Tests
 
 Running tests for your system call is easy. Just do the following:
 
@@ -125,4 +125,23 @@ You can suppress the repeated building of xv6 in the tests with the
 prompt> ./test-getreadcounts.sh -s
 ```
 
+## Watch out for concurrency issues!
+
+To pass the second test, you may encounter some of the dreaded
+concurrency issues we talked about in the first class.
+
+Don't worry, we have provided a function in x86.h to atomically
+increment your counter.  So instead of
+
+```c
+readcount++;
+```
+
+be sure to use
+
+```c
+atomic_inc(&readcount);
+```
+
+You're welcome!
 
